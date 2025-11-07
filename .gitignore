@@ -1,3 +1,11 @@
 # Ignorar arquivos sensíveis
 /config.py
 /LOG/reports.py
+
+# Python cache/bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+# C extensions (geralmente não versionar)
+*.pyd
+/LOG/__pycache__/

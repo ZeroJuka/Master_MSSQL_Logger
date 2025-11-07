@@ -2,10 +2,10 @@
 import urllib.parse
 
 sqlserver_config = {
-    "server": "10.85.28.41",
-    "database": "ods",
-    "user": "Powerbi_user",
-    "password": "Power@@#123"
+    "server": "host",
+    "database": "your_db_name",
+    "user": "your_db_user",
+    "password": "your_db_password"
 }
 
 params = urllib.parse.quote_plus(
@@ -27,4 +27,3 @@ SMTP_USE_TLS = False
 # --- Report Configuration ---
 RECIPIENT_EMAIL = "your.email@email.email"
 SENDER_EMAIL = SMTP_USERNAME
-
