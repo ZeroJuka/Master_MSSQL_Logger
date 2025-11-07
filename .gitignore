@@ -1,0 +1,3 @@
+# Ignorar arquivos sensíveis
+/config.py
+/LOG/reports.py
