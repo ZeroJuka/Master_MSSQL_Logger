@@ -30,7 +30,7 @@ Execute o script a partir da raiz do projeto:
 O script:
 - Conecta ao banco de dados.
 - Executa validações.
-- Gera relatório HTML com blocos colapsáveis (sucessos colapsados por padrão, erros/avisos expandidos).
+- Gera relatório HTML. Foco nas falhas: quando o status é `TRUE` o sucesso é mostrado de forma resumida (sem descrição e sem tabela de detalhes); para `FALSE`, `WARNING` ou `ERROR`, são exibidos os detalhes.
 - Envia o relatório por e-mail.
 
 ## Fluxo de Execução

@@ -124,17 +124,19 @@ def create_report_html(results):
         report_content += "<h2>🚨 Issues Found (Action Required)</h2>"
         sorted_results = errors + successes
     else:
-        report_content += "<h2>✅ Data Integrity Check Status: ALL GOOD</h2>"
+        report_content += "<h2>✅ TODOS OS JOBS DERAM CERTO</h2>"
         sorted_results = successes
 
     for entry in sorted_results:
         status_class = f"status-{entry['status']}"
         label_class = f"label-{entry['status']}"
-        
+
         details_html = ""
         details = entry['details']
-        
-        if entry.get('multi_row', False) and isinstance(details, pd.DataFrame):
+        # Oculta análise/detalhes quando status é TRUE para focar em problemas
+        show_details = entry['status'] != 'TRUE'
+
+        if show_details and entry.get('multi_row', False) and isinstance(details, pd.DataFrame):
             status_col = entry.get('status_check_column')
             headers_html = "".join(f"<th>{h}</th>" for h in details.columns)
             rows_html = ""
@@ -155,25 +157,29 @@ def create_report_html(results):
                 <p style="margin-top: 10px; font-weight: bold;">Detalhes da Validação por Registro/Dia:</p>
                 {html_table}
             """
-            
-        elif details:
+
+        elif show_details and details:
             details_html += "<table class='details-table'><thead><tr><th>Campo</th><th>Valor</th></tr></thead><tbody>"
             for k, v in details.items():
                 if isinstance(v, datetime):
                     v_str = v.strftime("%Y-%m-%d %H:%M:%S")
                 else:
                     v_str = str(v)
-                
+
                 td_class = f"class='status-{v_str.upper()}-cell'" if k == entry['status_check_column'] else ""
 
                 details_html += f"<tr><td>{k}</td><td {td_class}>{v_str}</td></tr>"
             details_html += "</tbody></table>"
+        else:
+            if entry['status'] == 'TRUE':
+                details_html = ""
         
+        desc_html = "" if entry['status'] == 'TRUE' else f"<p><em>{entry['description']}</em></p>"
         report_content += f"""
         <div class='log-entry {status_class}'>
             <h3>{entry['name']}</h3>
             <span class='status-label {label_class}'>{entry['status']}</span>
-            <p><em>{entry['description']}</em></p>
+            {desc_html}
             {details_html}
         </div>
         """
